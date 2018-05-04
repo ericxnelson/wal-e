@@ -89,17 +89,7 @@ def _connect_secureish(*args, **kwargs):
     if tuple(int(x) for x in boto.__version__.split('.')) >= (2, 6, 0):
         kwargs['validate_certs'] = True
    
-    ## make cert validation opt-outable for SSL endpoints
-    validate_certs = os.getenv('VALIDATE_SSL')
-    if validate_certs is False:
-        kwargs['validate_certs'] = False
-
-    ## make SSE opt-outable
-    sse = os.getenv('S3_SSE')
-    if sse is False:
-        kwargs['is_secure'] = False
-    else:
-        kwargs['is_secure'] = True
+    kwargs['is_secure'] = True
         
     auth_region_name = kwargs.pop('auth_region_name', None)
     conn = connection.S3Connection(*args, **kwargs)
