@@ -90,7 +90,11 @@ def _connect_secureish(*args, **kwargs):
         kwargs['validate_certs'] = True
 
     kwargs['is_secure'] = True
-
+    
+    ## make SSE opt-in
+    sse = os.getenv('S3_SSE')
+    if sse is None:
+        kwargs['server_side_encryption'] = None
     auth_region_name = kwargs.pop('auth_region_name', None)
     conn = connection.S3Connection(*args, **kwargs)
 
